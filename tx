@@ -1,0 +1,47 @@
+	# FB-1 -  turns display beacons on or off
+	if (objectServerID == "FB-1"):	
+
+               	#check for validate request
+		# validate allows RasPiConnect to verify this object is here 
+               	if (validate == "YES"):
+                        outgoingXMLData += Validate.buildValidateResponse("YES")
+                        outgoingXMLData += BuildResponse.buildFooter()
+                        return outgoingXMLData
+
+		# not validate request, so execute
+
+                responseData = "XXX"
+ 
+
+                if (objectName is None):
+                        objectName = "XXX"
+
+               	lowername = objectName.lower()
+
+
+               	if (lowername == "display beacons on"):
+
+			status = sendCommandToBeaconAirAndWait("BEACONON") 
+                       	responseData = "display beacons off" 
+                       	responseData = responseData.title()
+
+
+               	elif (lowername == "display beacons off"):
+
+			status = sendCommandToBeaconAirAndWait("BEACONOFF")
+                       	responseData = "display beacons on" 
+                       	responseData = responseData.title()
+
+
+		 # defaults to on 
+               	else:
+			status = sendCommandToBeaconAirAndWait("BEACONON") 
+                       	lowername = "display beacons off" 
+                       	responseData = lowername.title()
+
+
+               	outgoingXMLData += BuildResponse.buildResponse(responseData)
+      		outgoingXMLData += BuildResponse.buildFooter()
+               	return outgoingXMLData
+
+
